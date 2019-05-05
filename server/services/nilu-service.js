@@ -3,7 +3,7 @@ import {cacheData, retrieveFromCache} from './mongo-service';
 import {COLLECTION_AREAS, COLLECTION_STATIONS, COLLECTION_COMPONENTS, COLLECTION_AQIS, ID_AREAS, ID_STATIONS, ID_COMPONENTS, ID_AQIS} from './mongo-service';
 import Brakes from 'brakes';
 
-const CIRCUIT_BREAKER_TIMEOUT = 500;
+const CIRCUIT_BREAKER_TIMEOUT = process.env.CIRCUIT_BREAKER_TIMEOUT;
 const root = process.env.NILU_API_ROOT;
 
 export const lookupAreas = async () => {

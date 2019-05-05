@@ -4,10 +4,11 @@
   "description": "Node proxy against NILU public datasets.",
   "main": "server/server.js",
   "scripts": {
-    "start:api": "cross-env NODE_ENV=development NILU_API_ROOT=https://api.nilu.no MONGODB_URL=mongodb://localhost:27017 MONGODB_DB=nilu-cache LOG_LEVEL_CONSOLE=debug PORT=8080 nodemon ./server/server.js --watch server",
+    "start:api": "cross-env NODE_ENV=development NILU_API_ROOT=https://api.nilu.no MONGODB_URL=mongodb://localhost:27017 MONGODB_DB=nilu-cache LOG_LEVEL_CONSOLE=debug PORT=8080 CIRCUIT_BREAKER_TIMEOUT=500 nodemon ./server/server.js --watch server",
     "lint:js": "eslint ./server/**/*.js --max-warnings 10",
     "test:unit": "cross-env NODE_ENV=test TEST=unit PORT=8088 jest --config=./jest.config.js --no-cache --coverage --env=jsdom",
-    "test": "npm-run-all test:unit"
+    "test": "npm-run-all test:unit",
+    "serve": "cross-env node ./server/server.js"
   },
   "repository": {
     "type": "git",
@@ -20,23 +21,24 @@
   },
   "homepage": "https://github.com/Yuraii/nilu-proxy-node#readme",
   "dependencies": {
-    "express": "4.16.4",
-    "body-parser": "1.18.3",
-    "mongodb": "3.2.3",
+    "@babel/core": "7.3.4",
+    "@babel/node": "7.2.2",
     "@babel/polyfill": "7.2.5",
+    "@babel/preset-env": "7.3.4",
     "@babel/register": "7.0.0",
-    "winston": "3.2.1",
+    "body-parser": "1.18.3",
+    "brakes": "2.7.0",
+    "cross-env": "5.2.0",
+    "express": "4.16.4",
+    "mongodb": "3.2.3",
+    "request": "2.88.0",
     "request-promise": "4.2.4",
-    "brakes": "2.7.0"
+    "winston": "3.2.1"
   },
   "devDependencies": {
-    "cross-env": "5.2.0",
     "eslint": "5.14.1",
     "jest": "24.1.0",
     "nodemon": "1.18.10",
-    "npm-run-all": "4.1.5",
-    "@babel/core": "7.3.4",
-    "@babel/preset-env": "7.3.4",
-    "@babel/node": "7.2.2"
+    "npm-run-all": "4.1.5"
   }
 }

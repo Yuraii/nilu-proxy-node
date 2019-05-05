@@ -1,16 +1,21 @@
 # nilu-proxy-node
 Node proxy against NILU public datasets.
+Will cache results in a mongodb instance and use that if requests against external API times out.
 
-# API endpoints
+## Build
 
-/api/lookup/areas
-Available filters: <none>
+docker-compose build
 
-/api/lookup/stations
-Available filters: area, utd
+## Run
 
-/api/lookup/components
-Available filters: <none>
+docker-compose up
 
-/api/lookup/aqis
-Available filters: component, culture
+## API endpoints
+
+
+| Endpoint               | Filters            |
+| ---------------------- | ------------------ |
+| /api/lookup/areas      | <none>             |
+| /api/lookup/stations   | area, utd          |
+| /api/lookup/components | <none>             |
+| /api/lookup/aqis       | component, culture |
