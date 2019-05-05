@@ -10,19 +10,44 @@ export const ID_COMPONENTS = 'component';
 export const ID_AQIS = 'component';
 
 const MongoClient = mongodb.MongoClient;
-const URL = process.env.MONGODB_URL || 'mongodb://localhost:27017';
-const DATABASE = process.env.MONGODB_DB || 'nilu-cache';
 
-export const cacheData = (data, coll, idField) => {
+export const cacheData = async (data, coll, idField) => {
     const transformed = transformToMongo(data, idField);
-    MongoClient.connect(URL, {useNewUrlParser: true}, (err, client) => {
+    MongoClient.connect(process.env.MONGODB_URL, {useNewUrlParser: true}, (err, client) => {
         if (err) {
             throw err;
         }
-        const db = client.db(DATABASE);
+        const db = client.db(process.env.MONGODB_DB);
         const collection = db.collection(coll);
         performBulkUpdate(collection, transformed, idField);
         client.close();
+    });
+};
+
+const performBulkUpdate = (collection, data, idField) => {
+    let bulk = collection.initializeUnorderedBulkOp();
+    data.forEach(o => {
+        bulk.find({_id: o[idField]}).upsert().update({$set: o});
+    });
+    bulk.execute();
+};
+
+export const retrieveFromCache = (coll) => {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(process.env.MONGODB_URL, {useNewUrlParser: true}, (err, client) => {
+            if (err) {
+                reject(err);
+            }
+            const db = client.db(process.env.MONGODB_DB);
+            const collection = db.collection(coll);
+            return collection.find().toArray((err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                client.close();
+                resolve(transformFromMongo(result));
+            });
+        });
     });
 };
 
@@ -30,10 +55,9 @@ const transformToMongo = (data, idField) => {
     return data.map(o => ({'_id': o[idField], ...o}));
 };
 
-const performBulkUpdate = (collection, data, idField) => {
-    let bulk = collection.initializeUnorderedBulkOp();
-    data.forEach(o => {
-        bulk.find({_id: o[idField]}).upsert().update({$set: {o}});
+const transformFromMongo = (data) => {
+    return data.map(o => {
+        delete o['_id'];
+        return o;
     });
-    bulk.execute();
 };

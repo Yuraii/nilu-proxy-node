@@ -3,14 +3,14 @@ Node proxy against NILU public datasets.
 
 # API endpoints
 
-/lookup/areas
+/api/lookup/areas
 Available filters: <none>
 
-/lookup/stations
+/api/lookup/stations
 Available filters: area, utd
 
-/lookup/components
+/api/lookup/components
 Available filters: <none>
 
-/lookup/aqis
+/api/lookup/aqis
 Available filters: component, culture

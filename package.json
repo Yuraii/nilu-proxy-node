@@ -4,7 +4,7 @@
   "description": "Node proxy against NILU public datasets.",
   "main": "server/server.js",
   "scripts": {
-    "start:api": "cross-env NODE_ENV=development LOG_LEVEL_CONSOLE=debug PORT=8080 nodemon ./server/server.js --watch server",
+    "start:api": "cross-env NODE_ENV=development NILU_API_ROOT=https://api.nilu.no MONGODB_URL=mongodb://localhost:27017 MONGODB_DB=nilu-cache LOG_LEVEL_CONSOLE=debug PORT=8080 nodemon ./server/server.js --watch server",
     "lint:js": "eslint ./server/**/*.js --max-warnings 10",
     "test:unit": "cross-env NODE_ENV=test TEST=unit PORT=8088 jest --config=./jest.config.js --no-cache --coverage --env=jsdom",
     "test": "npm-run-all test:unit"
@@ -26,7 +26,8 @@
     "@babel/polyfill": "7.2.5",
     "@babel/register": "7.0.0",
     "winston": "3.2.1",
-    "request-promise": "4.2.4"
+    "request-promise": "4.2.4",
+    "brakes": "2.7.0"
   },
   "devDependencies": {
     "cross-env": "5.2.0",
