@@ -12,7 +12,6 @@ api.use(bodyParser.json());
 
 const asyncHandler = (promise, qs) => async (req, res, next) => {
     const boundQs = qs ? qs(req, res, next) : [];
-    console.log(boundQs);
     try {
         const result = await promise(...boundQs);
         return res.json(result);

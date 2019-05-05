@@ -13,7 +13,7 @@ const logErrors = (err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' || req.app.get('env') === 'test' ? err : {};
-  logger.error(`${err.statusCode || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  logger.error(`${err.status || err.statusCode || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
   next(err);
 };
 
@@ -24,7 +24,7 @@ const errorHandler = (err, req, res, next) => {
     return next(err);
   }
 
-  res.status(err.statusCode || 500).send({
+  res.status(err.status || err.statusCode || 500).send({
     message: err.message || 'Internal server error',
     reqOriginalUrl: req.originalUrl,
     reqMethod: req.method,
