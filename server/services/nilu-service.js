@@ -23,7 +23,7 @@ export const lookupAreas = async () => {
 
 export const lookupStations = async ({area, utd}) => {
     const brake = new Brakes(rp, {timeout: CIRCUIT_BREAKER_TIMEOUT});
-    brake.fallback(() => retrieveFromCache(COLLECTION_STATIONS));
+    brake.fallback(() => retrieveFromCache(COLLECTION_STATIONS, {area, utd}));
     return brake.exec({
         uri: `${root}/lookup/stations`,
         qs: {
@@ -60,7 +60,7 @@ export const lookupComponents = async () => {
 
 export const lookupAqis = async ({component, culture}) => {
     const brake = new Brakes(rp, {timeout: CIRCUIT_BREAKER_TIMEOUT});
-    brake.fallback(() => retrieveFromCache(COLLECTION_AQIS));
+    brake.fallback(() => retrieveFromCache(COLLECTION_AQIS, {component, culture}));
     return brake.exec({
         uri: `${root}/lookup/aqis`,
         qs: {

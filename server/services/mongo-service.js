@@ -32,7 +32,7 @@ const performBulkUpdate = (collection, data, idField) => {
     bulk.execute();
 };
 
-export const retrieveFromCache = (coll) => {
+export const retrieveFromCache = (coll, qs) => {
     return new Promise((resolve, reject) => {
         MongoClient.connect(process.env.MONGODB_URL, {useNewUrlParser: true}, (err, client) => {
             if (err) {
@@ -40,7 +40,11 @@ export const retrieveFromCache = (coll) => {
             }
             const db = client.db(process.env.MONGODB_DB);
             const collection = db.collection(coll);
-            return collection.find().toArray((err, result) => {
+            let filters = {};
+            if (qs) {
+                filters = createFilters(qs);
+            }
+            return collection.find(filters).toArray((err, result) => {
                 if (err) {
                     reject(err);
                 }
@@ -49,6 +53,23 @@ export const retrieveFromCache = (coll) => {
             });
         });
     });
+};
+
+const createFilters = ({area, utd, component, culture}) => {
+    let filters = {$and: []};
+    if (area) {
+        filters.$and.push({area});
+    }
+    if (utd) {
+        filters.$and.push({utd});
+    }
+    if (component) {
+        filters.$and.push({component});
+    }
+    if (culture) {
+        filters.$and.push({culture});
+    }
+    return filters.$and.length > 0 ? filters : {};
 };
 
 const transformToMongo = (data, idField) => {

@@ -4,7 +4,7 @@
   "description": "Node proxy against NILU public datasets.",
   "main": "server/server.js",
   "scripts": {
-    "start:api": "cross-env NODE_ENV=development NILU_API_ROOT=https://api.nilu.no MONGODB_URL=mongodb://localhost:27017 MONGODB_DB=nilu-cache LOG_LEVEL_CONSOLE=debug PORT=8080 CIRCUIT_BREAKER_TIMEOUT=500 nodemon ./server/server.js --watch server",
+    "start:api": "cross-env NODE_ENV=development NILU_API_ROOT=https://api.nilu.no MONGODB_URL=mongodb://localhost:27017 MONGODB_DB=nilu-cache LOG_LEVEL_CONSOLE=debug PORT=8080 CIRCUIT_BREAKER_TIMEOUT=1 nodemon ./server/server.js --watch server",
     "test:unit": "cross-env NODE_ENV=test TEST=unit PORT=8088 jest --config=./jest.config.js --no-cache --coverage --env=jsdom",
     "test": "npm-run-all test:unit",
     "serve": "cross-env node ./server/server.js"
