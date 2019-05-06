@@ -12,7 +12,6 @@ docker-compose up
 
 ## API endpoints
 
-
 | Endpoint               | Filters            |
 | ---------------------- | ------------------ |
 | /api/lookup/areas      | <none>             |
