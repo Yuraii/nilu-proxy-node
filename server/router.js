@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import bodyParser from 'body-parser';
-import {lookupAreas, lookupStations, lookupComponents, lookupAqis} from './services/nilu-service';
+import {fetchAreas, fetchStations, fetchComponents, fetchAqis} from './controllers/nilu-controller';
 
 const api = Router();
 
@@ -28,12 +28,12 @@ api.get('/', (req, res) => res.type('json').json({
     }
 }));
 
-api.get('/lookup/areas', asyncHandler(lookupAreas));
+api.get('/lookup/areas', asyncHandler(fetchAreas));
 
-api.get('/lookup/stations', asyncHandler(lookupStations, (req) => [req.query]));
+api.get('/lookup/stations', asyncHandler(fetchStations, (req) => [req.query]));
 
-api.get('/lookup/components', asyncHandler(lookupComponents));
+api.get('/lookup/components', asyncHandler(fetchComponents));
 
-api.get('/lookup/aqis', asyncHandler(lookupAqis, (req) => [req.query]));
+api.get('/lookup/aqis', asyncHandler(fetchAqis, (req) => [req.query]));
 
 export {api};
