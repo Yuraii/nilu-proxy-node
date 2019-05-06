@@ -1,5 +1,5 @@
 # nilu-proxy-node
-Node proxy against NILU public datasets.
+Node proxy against NILU public datasets. See [https://api.nilu.no/](https://api.nilu.no/) for further documentation.  
 Will cache results in a mongodb instance and use that if requests against external API times out.
 
 ## Build
